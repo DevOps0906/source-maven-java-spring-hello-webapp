@@ -1,0 +1,8 @@
+FROM maven:3-eclipse-temurin-21 AS mbuilder
+RUN mkdir /hello
+RUN git clone <URL> /hello
+WORKDIR /hello
+RUN mvn package
+FROM tomcat:10-jre21
+COPY --from=mbuilder /hello/target/hello-world.war /usr/local/tomcat/webapps/
+
